@@ -13,6 +13,7 @@ interface Entry {
         title: {
             english?: string;
             romaji?: string;
+            native?: string;
         },
         description?: string;
         coverImage?: {
@@ -65,6 +66,21 @@ export default async (request: VercelRequest, response: VercelResponse) => {
         return;
     }
 
+    let found: boolean = false;
+    for (const theList of info.lists) {
+        if (theList.name === list) {
+            found = true;
+            break;
+        }
+    } 
+
+    if (!found) {
+        response.status(404).send({
+            error: 'That list does not exist',
+        });
+        return;
+    }
+
     const filteredList: MediaList = info.lists.filter((l) => l.name === list);
 
     if (filteredList.length === 0) {
@@ -80,7 +96,9 @@ export default async (request: VercelRequest, response: VercelResponse) => {
         l.entries.forEach((e) => {
             rows += `
                 <tr class="entry">
-                    <td class="entry-title">${e.media.title.english || e.media.title.romaji}</td>
+                    <td class="entry-title-english">${e.media.title.english}</td>
+                    <td class="entry-title-japanese">${e.media.title.native}</td>
+                    <td class="entry-title-romaji">${e.media.title.romaji}</td>
                     <td class="entry-link"><a href=${format.toUpperCase() === 'ANIME' ? `https://anilist.co/anime/${e.media.id}` : `https://anilist.co/manga/${e.media.id}`}>${format.toUpperCase() === 'ANIME' ? `https://anilist.co/anime/${e.media.id}` : `https://anilist.co/manga/${e.media.id}`}</a></td>
                     <td class="entry-cover"><a href=${e.media.coverImage.extraLarge}>${e.media.coverImage.extraLarge}</a></td>
                     <td class="entry-banner"><a href=${e.media.coverImage.extraLarge}>${e.media.bannerImage}<a/></td>
@@ -111,7 +129,9 @@ export default async (request: VercelRequest, response: VercelResponse) => {
                 <table>
                     <thead>
                         <tr>
-                            <th>Title</th>
+                            <th>Title (EN)</th>
+                            <th>Title (JP)</th>
+                            <th>Title (Romaji)</th>
                             <th>Link</th>
                             <th>Cover</th>
                             <th>Banner</th>
@@ -147,7 +167,8 @@ const fetchUserList = async(username: string, format: string): Promise<any> => {
                         id
                         title {
                           english
-                          romaji
+                          romaji,
+                          native
                         }
                         description
                         coverImage {
