@@ -1,0 +1,53 @@
+{   
+    "env": {
+        "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "rules": {
+        "quotes": ["error", "single", {
+            "allowTemplateLiterals": true
+        }],
+        "comma-dangle": "off",
+        "no-unused-vars": "warn",
+        "no-extra-semi": "error",
+        "array-bracket-spacing": ["warn", "never"],
+        "camelcase": ["warn", {"properties": "always"}],
+        "capitalized-comments": "off",
+        "comma-spacing": ["error", {
+            "before": false,
+            "after": true
+        }],
+        // "indent": ["error", 4],
+        "semi": ["error", "always"],
+        "spaced-comment": ["error", "always"],
+        "arrow-body-style": "off",
+        "arrow-parens": ["error", "always"],
+        "arrow-spacing": ["error", {
+            "before": true,
+            "after": true
+        }],
+        "no-duplicate-imports": ["error", {
+            "includeExports": true
+        }],
+        "no-var": "error",
+        "prefer-arrow-callback": "error",
+        "prefer-const": "error",
+        "prefer-destructuring": "off",
+        "sort-imports": "off",
+        "no-case-declarations": "off",
+        "@typescript-eslint/explicit-member-accessibility": 0,
+        "@typescript-eslint/explicit-function-return-type": 0,
+        "@typescript-eslint/no-parameter-properties": 0,
+        "@typescript-eslint/no-namespace": 0,
+        "@typescript-eslint/interface-name-prefix": 0,
+        "@typescript-eslint/explicit-module-boundary-types": 0,
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/indent": ["error", 4],
+        "@typescript-eslint/no-inferrable-types": "off"
+    }
+}
